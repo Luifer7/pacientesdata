@@ -1,0 +1,25 @@
+
+
+field1: sede
+field2: especialidad
+field3: medico
+field4: dia
+field5: hora
+field6: estado
+field7: sede
+field8: sede
+field9: nombre
+field10: apellido
+field11: telefono
+field12: sede
+field13: correo
+field14: sede
+field15: sede
+field16: sede
+field17: sede
+field18: idafiliado
+field19: sede
+field20: sede
+field21: sede
+field22: sede
+
