@@ -4,29 +4,9 @@
 
   <div class="general" >
 
-    <!-- AGREGAR MES -->
-    <div class="container" >
-      <div class="d-flex flex-column" >
-          <h4 class="mt-4 text-center" >Escoge un mes <i class="bi bi-calendar3"></i> </h4>
-          <form class="d-flex gap-2" v-on:submit.prevent="(readDatos(mes))"  >
-          <select v-model="mes" class="form-select  form-select-sm" aria-label="Default select example">
-          <option selected>Filtrar por Horas</option>
-          <option v-for="month of months" :key="month.id" :value="`${month.mes}`" >{{month.mes}}</option>
-        
-        </select>
-        <button type="submit" class="btn btn-sm btn-primary">
-          <i class="bi bi-check2-square"></i>
-        </button>
-        </form>
-        </div>
-    </div>
+ 
+    <SelectComponent></SelectComponent>
 
-    <!-- Spinner -->
-    <div v-if="useDatos.spinner" class="container text-center m-2 p-3 m-auto">
-    <div class="spinner-border " role="status">
-      <span class="visually-hidden">Loading...</span>
-   </div>
-    </div>
 
     <!-- Datos generales -->
     <div class="container p-2" >
@@ -41,22 +21,24 @@
     
     <!-- Pacientes -->
     <h5 class="text-center text-primary fw-bold mt-4" >{{useDatos.topInasistentes.length}} Pacientes <b class="text-uppercase" >{{useDatos.mes}}</b> </h5>
-    <div class="mt-3" >
-      <input type="text" v-model="queryMasBuscados" placeholder="Buscar por nombre" class="form-control form-control-sm w-50 m-auto">
+    
+    <div class="mt-3 d-flex align-items-center justify-content-center gap-2 flex-wrap" >
+
+      <input type="text" v-model="queryMasBuscados" placeholder="Buscar por nombre" 
+      class="form-control form-control-sm w-50">
+      <span class="text-center text-primary d-flex align-items-center justify-content-center">
+          <i class="bi bi-funnel-fill h5">{{getMasBuscado().length}}</i>
+      </span>
+    
     </div>
      
         <!-- CARD PACIENTES -->
-  
        <div class="container p-3 m-auto d-flex box-top flex-column" >
         
-        <span class="text-center text-primary d-flex align-items-center justify-content-center">
-          <i class="bi bi-funnel-fill h5">{{getMasBuscado().length}}</i>
-        </span>
-
         <div class="d-flex box-top" >
           <div v-for="top of getMasBuscado()" :key="top.field8" class="border box-user p-2 d-flex flex-column gap-2">
             
-            <span  class="nombres text-primary" :class="isCopy && top.field8 === current ? 'bg-primary p-1 rounded text-white' : ''">
+            <span  class="nombres text-primary tex-capitalize text-center mb-2" :class="isCopy && top.field8 === current ? 'bg-primary p-1 rounded text-white' : ''">
               <b>{{top.field9}} {{top.field10}}</b>
             </span> 
             
@@ -64,11 +46,11 @@
               <i class="bi bi-telephone-fill"></i> <b>{{top.field11}}</b>
             </span> 
 
-            <span class="email" :class="isCopy && top.field8 === current ? 'bg-primary p-1 rounded text-white' : ''"><b>{{top.field13}}</b>
+            <span class="email m-1" :class="isCopy && top.field8 === current ? 'bg-primary p-1 rounded text-white' : ''"><b>{{top.field13}}</b>
             </span>
 
-            <span class="nombres" :class="isCopy && top.field8 === current ? 'bg-primary p-1 rounded text-white' : ''">
-              <b>CC:{{top.field8}}</b>
+            <span class="nombres m-1" :class="isCopy && top.field8 === current ? 'bg-primary p-1 rounded text-white' : ''">
+              <b><b class="h5" >CC: </b>{{top.field8}}</b>
             </span>
             
             <i @click="copyClipboard(top)" class="bi bi-clipboard-check-fill text-center m-2 copy"><small class="copytex" >Copiar datos</small></i>
@@ -83,79 +65,109 @@
 
 
 
-    <!-- FILTROS -->
-    <div class=" border filtros m-auto  p-3 mt-4" >
 
 
-      <h3 class="text-center mb-3 text-primary" >FILTROS</h3>
-      
-      <div class="box-btn d-flex gap-3 flex-wrap justify-content-center align-items-start" >
 
-        <!-- Filtro por hora -->
-        <div class="d-flex flex-column" >
-          <small class="fw-bold m-1 text-primary" style="font-size: .9em;"  >
-            <b class="text-danger" >Incumplidas</b>
-            por hora</small>
-          <form class="d-flex gap-2" v-on:submit.prevent="filtroDos(h)"  >
-          <select v-model="h" class="form-select" aria-label="Default select example">
-          <option selected>Filtrar por Horas dd</option>
-          <option v-for="hora of useDatos.horas" :key="hora.id" :value="`${hora.field5}`" >{{hora.field5}}</option>
-        
-        </select>
-        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
-        </form>
-        </div>
+    <!-- CAJA Filtros -->
+    <div class="filtros m-auto  p-2 mt-3" >
 
-        <!-- Filtro por dia -->
-        <div class="d-flex flex-column" >
-          <small class="fw-bold m-1 text-primary" style="font-size: .9em;"  >
-            <b class="text-danger" >Incumplidas</b>
-            por dia</small>
-          <form class="d-flex gap-2" v-on:submit.prevent="filtroTres(dia)"  >
-          <select v-model="dia" class="form-select" aria-label="Default select example">
-          <option selected>Filtrar por dias</option>
-          <option v-for="dia of useDatos.dias" :key="dia.id" :value="`${dia.field4}`" >{{dia.field4}}</option>
-        
-        </select>
-        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
-        </form>
-        </div>
-      
-      </div>
+            <!-- Titulo filtros -->
+           <h3 class="text-center mb-4 text-dark" >FILTROS</h3>
 
-      <h5 class="text-center mt-4 text-dark fw-bold" >Resultados de
-        <b style="text-decoration: underline;" class="text-primary">
-          <b>{{useDatos.busquedaDia}} </b> {{useDatos.busqueda}}</b> <br> <strong class="m-1 text-dark" > <b style="text-decoration: underline;" class="text-primary" >{{getFiltradas().length}}</b> citas en <b style="text-decoration: underline;" class="text-primary" >{{useDatos.mes}}</b></strong></h5>
-      <div class="mt-3" >
-      <input type="text" v-model="queryFiltradas" placeholder="Buscar por hora ejemplo: 2:30PM" class="form-control form-control-sm w-50 m-auto">
-      </div>
+            <!-- FILTROS -->
+          <div class="box-btn d-flex flex-column gap-3 flex-wrap justify-content-center align-items-center" >
 
-    <!-- CONTAINER CONTENIDO -->
-      <div class="container m-auto d-flex box-top mt-3" >
-        <div v-for="top of getFiltradas()" :key="top.id" class="box-user bb p-2">
-          <div class="p-2" style="font-size: .8em;" >
-            <h6 class="text-success text-center fw-bold" >Datos de la cita</h6>
-            <strong>Hora: {{top.field5}}</strong> <br> <small> Dia: {{top.field4}}</small> <br>
-            <strong class="fw-bold" v-if="top.field6 === 'Incumplida'" >Cita: <small class="text-danger" >{{top.field6}}</small> </strong>
-            <strong class="fw-bold" v-if="top.field6 === 'Condonada'" >Cita: <small class="text-warning" >{{top.field6}}</small> </strong>
-            <strong class="fw-bold" v-if="top.field6 === 'Incumplida Pagada'" >Cita: <small class="text-success" >{{top.field6}}</small> </strong>
-          </div>
-
-          <div class="p-2 m-1 d-flex flex-column" >
-            <h6 class="text-success text-center fw-bold" >Paciente de la cita</h6>
-            <span class="nombres text-primary fw-bold" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field9}} {{top.field10}}</b></span> 
-            <span class="nombres" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" >Tel: <b>{{top.field11}}</b></span> 
-            <span class="email" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field13}}</b></span> 
-            <span class="nombres mt-1" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''">
-             <b>CC:{{top.field8}}</b>
-          </span>
+            <!-- Filtro por hora -->
+            <div class="d-flex col-10 flex-column" >
+              <small class="fw-bold m-1 text-primary" style="font-size: .9em;"  >
+                Filtra citas
+                <b class="text-danger" >Incumplidas</b>
+                por hora.</small>
+              <form class="d-flex gap-2" v-on:submit.prevent="(filtroDos(h), restarModel(1))"  >
+              <select v-model="h" class="form-select" aria-label="Default select example">
+              <option selected>Elige una hora</option>
+              <option v-for="hora of useDatos.horas" :key="hora.id" :value="`${hora.field5}`" >{{hora.field5}}</option>
             
-            <i @click="copyClipboard(top)" class="bi bi-clipboard-check-fill text-center m-3 copy"><small class="copytex" >Copiar datos</small></i>
-          </div>
-      
-        </div>
+            </select>
+            <button type="submit" class="btn btn-sm btn-primary">
+              <i class="bi bi-funnel"></i>
+            </button>
+            </form>
+            </div>
 
-      </div>
+            <!-- Filtro por dia -->
+            <div class="d-flex col-10 flex-column" >
+              <small class="fw-bold m-1 text-primary" style="font-size: .9em;"  >
+                Filtra citas
+                <b class="text-danger" >Incumplidas</b>
+                por dia</small>
+              <form class="d-flex gap-2" v-on:submit.prevent="(filtroTres(dia), restarModel(2))"  >
+              <select v-model="dia" class="form-select" aria-label="Default select example">
+              <option selected>Elige un dia.</option>
+              <option v-for="dia of useDatos.dias" :key="dia.id" :value="`${dia.field4}`" >{{dia.field4}}</option>
+            
+            </select>
+            <button type="submit" class="btn btn-sm btn-primary">
+              <i class="bi bi-funnel"></i>
+            </button>
+            </form>
+            </div>
+          
+          </div>
+
+          <!-- No has filtrado -->
+          <div v-if="!useDatos.show" class="text-center mt-4 d-flex gap-2 flex-wrap align-items-center justify-content-center text-dark fw-bold" >
+        
+            <strong class="m-1 text-dark"> ¡Recuerda que puedes realizar filtros por hora y día! </strong>
+          </div>
+
+          <!-- INFO FILTRO -->
+          <div v-if="useDatos.show" class="text-center mt-4 d-flex gap-2 flex-wrap align-items-center justify-content-center text-dark fw-bold" >
+            Filtraste
+            <b style="text-decoration: underline;" class="text-primary">
+              <b>"{{useDatos.busquedaDia}} </b> {{useDatos.busqueda}}"</b>  
+
+              <strong class="m-1 text-dark" >Existen <b style="text-decoration: underline;" class="text-primary" >
+                {{getFiltradas().length}}</b> citas en <b style="text-decoration: underline;" class="text-primary" >
+                  {{useDatos.mes}}
+              </b>
+            </strong>
+          </div>
+        
+          <!-- Buscador -->
+          <div v-if="useDatos.show" class="mt-3" >
+          <input type="text" v-model="queryFiltradas" placeholder="Buscar una hora ejemplo: 2:30PM" class="form-control form-control-sm w-50 m-auto">
+          </div>
+
+          <!-- CAJA datos filtrados -->
+          <div class="container m-auto d-flex box-top mt-3" >
+            <div v-for="top of getFiltradas()" :key="top.id" class="box-user bb p-2">
+
+              <!-- Datos de la cita -->
+              <div class="p-2" style="font-size: .8em;" >
+                <h6 class="text-success text-center fw-bold" >Datos de la cita</h6>
+                <strong>Hora: {{top.field5}}</strong> <br> <small> Dia: {{top.field4}}</small> <br>
+                <strong class="fw-bold" v-if="top.field6 === 'Incumplida'" >Cita: <small class="text-danger" >{{top.field6}}</small> </strong>
+                <strong class="fw-bold" v-if="top.field6 === 'Condonada'" >Cita: <small class="text-warning" >{{top.field6}}</small> </strong>
+                <strong class="fw-bold" v-if="top.field6 === 'Incumplida Pagada'" >Cita: <small class="text-success" >{{top.field6}}</small> </strong>
+              </div>
+
+              <!-- Info de la persona -->
+              <div class="p-2 m-1 d-flex flex-column" >
+                <h6 class="text-success text-center fw-bold" >Paciente de la cita</h6>
+                <span class="nombres text-primary fw-bold" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field9}} {{top.field10}}</b></span> 
+                <span class="nombres" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" >Tel: <b>{{top.field11}}</b></span> 
+                <span class="email" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field13}}</b></span> 
+                <span class="nombres mt-1" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''">
+                <b>CC:{{top.field8}}</b>
+              </span>
+                
+                <i @click="copyClipboard(top)" class="bi bi-clipboard-check-fill text-center m-3 copy"><small class="copytex" >Copiar datos</small></i>
+              </div>
+          
+            </div>
+
+          </div>
       
     </div>
 
@@ -210,26 +222,27 @@
 
 <script setup>
 import { ref } from '@vue/reactivity';
+import SelectComponent from '../components/SelectComponent.vue';
 import TopsComponet from '../components/TopsComponet.vue';
 import { useExcel } from '../composables/excelMethods';
 import { useDatosStore } from '../stores/datosdina';
 
 const useDatos = useDatosStore()
-const { readDatos, filtroDos, filtroTres, getAll, getDetalles, getTopByFields } = useExcel()
+const { readDatos, filtroDos, filtroTres, getDetalles, getTopByFields } = useExcel()
 
-const months = ref([
-  {id: "edfgh", mes: "febrero"}, {id: "f4wqd", mes: "marzo"}, {id: "wefe", mes: "abril"},
-  {id: "3f3fjj", mes: "mayo"}, {id: "ifijf", mes: "junio"}, {id: "nsbd", mes: "julio"},
-  {id: "idjdjd", mes: "agosto"}, {id: "skhdh", mes: "septiembre"}, {id: "msjs", mes: "octubre"},
-])
-
-//Para el mes
-const mes = ref('')
 
 //Para filtros
-const numero = ref('')
 const h = ref('')
 const dia = ref('')
+
+const restarModel = (d) => {
+  if (d === 1) {
+    dia.value = ''
+  }
+  if (d === 2) {
+    h.value = ''
+  }
+}
 
 //Para el copy
 const isCopy = ref(null)
@@ -345,6 +358,24 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,107,121,0) 0%, rgba
 .copytex {
   font-size: .6em;
   font-weight: bold;
+}
+
+::-webkit-scrollbar-track
+{
+	border: 1px solid transparent;
+	background-color: transparent;
+}
+
+::-webkit-scrollbar
+{
+	width: 13px;
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #74b9ff;
+	border-radius: 10px;
 }
 
 </style>

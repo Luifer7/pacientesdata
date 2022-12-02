@@ -17,7 +17,7 @@ export function useExcel() {
     const useDatos = useDatosStore()
 
     const readDatos =  (mes) => {
-
+        useDatos.show = false
         useDatos.filtroIncumplido = []
         useDatos.mes = mes
         useDatos.total = []
@@ -83,6 +83,7 @@ export function useExcel() {
 
     //FILTRO POR HORAS
     const filtroDos = (n) => {
+        useDatos.show = true
         useDatos.busquedaDia = ''
         useDatos.busqueda = n
         useDatos.filtroIncumplido = []
@@ -94,7 +95,7 @@ export function useExcel() {
     
     //FILTRO POR DIAS
     const filtroTres = (d) => {
-
+      useDatos.show = true
         if (d === '') {
           return alert('Upp! peudes enviar un filtro vacio')
         }  
@@ -113,9 +114,6 @@ export function useExcel() {
         useDatos.filtroIncumplido = useDatos.data.filter(field =>  field.field4 === d) 
     }
 
-    const getAll = () => {
-         useDatos.data = datos.filter(field => field.field6 != 'Incumplida Pagada')
-    }
 
     const getTopByFields = (m) => {
       
@@ -144,7 +142,7 @@ export function useExcel() {
     }
     
       return {
-        readDatos, filtroDos, filtroTres, getAll, getDetalles, getTopByFields
+        readDatos, filtroDos, filtroTres, getDetalles, getTopByFields
       }
 
 }

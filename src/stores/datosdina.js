@@ -35,9 +35,11 @@ export const useDatosStore = defineStore('datos', () => {
  const mesTopDia = ref('')
  const pacienteTop = ref([])
 
+ const show = ref(null)
+
   return { data, horas, dias, busquedaDia, mes, busqueda, total, incumplidos, 
            condonados, incumplidaPagada, topInasistentes, filtroIncumplido, 
-           citasPaciente, spinner, topDia, topHora, mesTopDia, pacienteTop }
+           citasPaciente, spinner, topDia, topHora, mesTopDia, pacienteTop, show }
 
 
 })
