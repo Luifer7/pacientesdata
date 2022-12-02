@@ -4,10 +4,29 @@
         
         
         <h2 class="text-center mt-4" >ESTADISTICAS</h2>
+        
         <div class="d-grid gap-2 col-10 mx-auto mt-4 mb-4">
             <button class="btn btn-primary" type="button"
             @click="getTopByFields(useDatos.mes)"
-            >Ver estadisticas del {{useDatos.mes}}</button>
+            >Ver estadisticas de {{useDatos.mes}}</button>
+        </div>
+
+        <div v-if="useDatos.mes === useDatos.mesTopDia"  class="container mt-2 box-tops-data d-flex align-items-center" >
+            <h5 class="text-start m-2" >TOP <b class="text-primary text-decoration-underline" >PACIENTES</b> CITAS INCUMPLIDAS 
+                <br>
+                <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong>
+            </h5>
+                
+                <!-- Arreglos -->
+                <div class="border p-3 m-2  rounded d-flex flex-column box-into-top" v-for="datospaciente of useDatos.pacienteTop" :key="datospaciente.id" >
+                    <h2 class="text-primary text-center" > TOP {{(useDatos.pacienteTop.indexOf(datospaciente) + 1 )}} </h2>
+                    
+                  
+                   <h6 class="text-center" >DIA</h6>
+                   <strong class="text-center mb-3" style="font-size:small;" >{{datospaciente[0].field9}} {{datospaciente[0].field10}}</strong>
+                   <small class="text-center mb-2"><b class=" h6 bg-primary text-white p-1 rounded">{{datospaciente.length}}</b> citas incumplidas.</small>
+                </div>
+
         </div>
 
         <div v-if="useDatos.mes === useDatos.mesTopDia"  class="container mt-2 box-tops-data d-flex align-items-center" >

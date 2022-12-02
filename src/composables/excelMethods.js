@@ -38,40 +38,41 @@ export function useExcel() {
           useDatos.data =  useDatos.total.filter(field => field.field6 != 'Incumplida Pagada')
           
            //Para Los pacientes        
-        let resultadoInasistente = useDatos.data.reduce((k, e)=> {
-          if (!k.find(d => d.field18 === e.field18)) {
-            k.push(e)
-          }
-          return k
-        }, [])
-        useDatos.topInasistentes = resultadoInasistente
-        // Pacientes end
+          let resultadoInasistente = useDatos.data.reduce((k, e)=> {
+            if (!k.find(d => d.field18 === e.field18)) {
+              k.push(e)
+            }
+            return k
+          }, [])
+          useDatos.topInasistentes = resultadoInasistente
+          // Pacientes end
 
-        //Para las horas
-        let resultado = useDatos.data.reduce((a, e)=> {
-          if (!a.find(d => d.field5 === e.field5)) {
-            a.push(e)
-          }
-          return a
-        }, [])
-        useDatos.horas = resultado
+          //Para las horas
+          let resultado = useDatos.data.reduce((a, e)=> {
+            if (!a.find(d => d.field5 === e.field5)) {
+              a.push(e)
+            }
+            return a
+          }, [])
+          useDatos.horas = resultado
 
-        //Para los dias
-        let resultadoDia = useDatos.data.reduce((a, e)=> {
-          if (!a.find(d => d.field4 === e.field4)) {
-            a.push(e)
+          //Para los dias
+          let resultadoDia = useDatos.data.reduce((a, e)=> {
+            if (!a.find(d => d.field4 === e.field4)) {
+              a.push(e)
+            }
+            return a
+          }, [])
+          useDatos.dias = resultadoDia
+        
+          } catch (error) {
+            
           }
-          return a
-        }, [])
-        useDatos.dias = resultadoDia
-       
-        } catch (error) {
-          
-        }
        
        
     }
-    // Se pone mayo por que es el que menos items tiene  y cargan mas rapido
+
+    //Se pone mayo por que es el que menos items tiene  y cargan mas rapido
     readDatos('mayo')
     
 
@@ -122,16 +123,24 @@ export function useExcel() {
 
       let numeroVecesDia = []
       let numeroVecesHora = []
+      let numeroVecesPaciente = []
 
       useDatos.dias.forEach(element => {
         numeroVecesDia.push(useDatos.data.filter(field => field.field4 === element.field4))
       })
+
       useDatos.horas.forEach(element => {
         numeroVecesHora.push(useDatos.data.filter(field => field.field5 === element.field5))
       })
+
+      useDatos.topInasistentes.forEach(element => {
+        numeroVecesPaciente.push(useDatos.data.filter(field => field.field8 === element.field8))
+      })
       
-      useDatos.topDia = numeroVecesDia.sort().reverse()
-      useDatos.topHora = numeroVecesHora.sort().reverse()
+      useDatos.topDia = numeroVecesDia.sort().reverse().splice(0, 50)
+      useDatos.topHora = numeroVecesHora.sort().reverse().splice(0, 50)
+      useDatos.pacienteTop = numeroVecesPaciente.sort().reverse().splice(0, 11) 
+       
     }
     
       return {
