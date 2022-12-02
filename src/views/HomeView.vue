@@ -146,20 +146,22 @@
               <!-- Datos de la cita -->
               <div class="p-2" style="font-size: .8em;" >
                 <h6 class="text-success text-center fw-bold" >Datos de la cita</h6>
-                <strong>Hora: {{top.field5}}</strong> <br> <small> Dia: {{top.field4}}</small> <br>
-                <strong class="fw-bold" v-if="top.field6 === 'Incumplida'" >Cita: <small class="text-danger" >{{top.field6}}</small> </strong>
-                <strong class="fw-bold" v-if="top.field6 === 'Condonada'" >Cita: <small class="text-warning" >{{top.field6}}</small> </strong>
-                <strong class="fw-bold" v-if="top.field6 === 'Incumplida Pagada'" >Cita: <small class="text-success" >{{top.field6}}</small> </strong>
+                <strong>Hora: {{top.field5}}</strong> <br> <strong> Dia: {{top.field4}}</strong> <br>
+                <strong>Especialidad: {{top.field2}}</strong> <br>
+                <strong>Médico: {{top.field3}}</strong> <br>
+                <strong class="fw-bold" v-if="top.field6 === 'Incumplida'" >Estado: <small class="text-danger" >{{top.field6}}</small> </strong>
+                <strong class="fw-bold" v-if="top.field6 === 'Condonada'" >Estado: <small class="text-warning" >{{top.field6}}</small> </strong>
+                <strong class="fw-bold" v-if="top.field6 === 'Incumplida Pagada'" >Estado: <small class="text-success" >{{top.field6}}</small> </strong>
               </div>
 
               <!-- Info de la persona -->
               <div class="p-2 m-1 d-flex flex-column" >
-                <h6 class="text-success text-center fw-bold" >Paciente de la cita</h6>
-                <span class="nombres text-primary fw-bold" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field9}} {{top.field10}}</b></span> 
-                <span class="nombres" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" >Tel: <b>{{top.field11}}</b></span> 
+                <h6 class="text-success text-center fw-bold" >Paciente</h6>
+                <span class="nombres text-primary fw-bold text-center text-capitalize mb-2" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field9}} {{top.field10}}</b></span> 
+                <span class="nombres" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" > <b class="h6 fw-bold" >cel: </b> <b>{{top.field11}}</b></span> 
                 <span class="email" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''" ><b>{{top.field13}}</b></span> 
                 <span class="nombres mt-1" :class="isCopy && top.field8 === current ? 'bg-primary text-white' : ''">
-                <b>CC:{{top.field8}}</b>
+                <b><b class="h5 fw-bold" >CC: </b>{{top.field8}}</b>
               </span>
                 
                 <i @click="copyClipboard(top)" class="bi bi-clipboard-check-fill text-center m-3 copy"><small class="copytex" >Copiar datos</small></i>
