@@ -83,10 +83,6 @@
 
 
 
-
-
-
-
     <!-- FILTROS -->
     <div class=" border filtros m-auto  p-3 mt-4" >
 
@@ -128,10 +124,11 @@
       </div>
 
       <h5 class="text-center mt-4 text-dark fw-bold" >Resultados de
-        <b style="text-decoration: underline;" class="text-primary"><b>{{useDatos.busquedaDia}} </b> {{useDatos.busqueda}}</b> <br> <strong class="m-1 text-dark" > <b style="text-decoration: underline;" class="text-primary" >{{getFiltradas().length}}</b> citas en <b style="text-decoration: underline;" class="text-primary" >{{useDatos.mes}}</b></strong></h5>
+        <b style="text-decoration: underline;" class="text-primary">
+          <b>{{useDatos.busquedaDia}} </b> {{useDatos.busqueda}}</b> <br> <strong class="m-1 text-dark" > <b style="text-decoration: underline;" class="text-primary" >{{getFiltradas().length}}</b> citas en <b style="text-decoration: underline;" class="text-primary" >{{useDatos.mes}}</b></strong></h5>
       <div class="mt-3" >
       <input type="text" v-model="queryFiltradas" placeholder="Buscar por hora ejemplo: 2:30PM" class="form-control form-control-sm w-50 m-auto">
-    </div>
+      </div>
 
     <!-- CONTAINER CONTENIDO -->
       <div class="container m-auto d-flex box-top mt-3" >
@@ -162,6 +159,7 @@
       
     </div>
 
+    <TopsComponet></TopsComponet>
 
 
       <!-- Modal -->
@@ -212,11 +210,12 @@
 
 <script setup>
 import { ref } from '@vue/reactivity';
+import TopsComponet from '../components/TopsComponet.vue';
 import { useExcel } from '../composables/excelMethods';
 import { useDatosStore } from '../stores/datosdina';
 
 const useDatos = useDatosStore()
-const { readDatos, filtroDos, filtroTres, getAll, getDetalles } = useExcel()
+const { readDatos, filtroDos, filtroTres, getAll, getDetalles, getTopByFields } = useExcel()
 
 const months = ref([
   {id: "edfgh", mes: "febrero"}, {id: "f4wqd", mes: "marzo"}, {id: "wefe", mes: "abril"},
@@ -235,6 +234,8 @@ const dia = ref('')
 //Para el copy
 const isCopy = ref(null)
 const current = ref('')
+
+getTopByFields(useDatos.mes)
 
   const copyClipboard = (texto) => {
       

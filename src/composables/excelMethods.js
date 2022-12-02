@@ -16,7 +16,9 @@ export function useExcel() {
 
     const useDatos = useDatosStore()
 
-    const readDatos = async (mes) => {
+    const readDatos =  (mes) => {
+
+        useDatos.filtroIncumplido = []
         useDatos.mes = mes
         useDatos.total = []
         mes === 'octubre' ? useDatos.total = octubre.mes : false 
@@ -28,14 +30,13 @@ export function useExcel() {
         mes === 'abril' ? useDatos.total = abril.mes : false
         mes === 'marzo' ? useDatos.total = marzo.mes : false
         mes === 'febrero' ? useDatos.total = febrero.mes : false
-        
-       
+      
         try {
 
           useDatos.condonados =  useDatos.total.filter(field => field.field6 === 'Condonada')
           useDatos.incumplidos = useDatos.total.filter(field => field.field6 === "Incumplida")
           useDatos.data =  useDatos.total.filter(field => field.field6 != 'Incumplida Pagada')
-        
+          
            //Para Los pacientes        
         let resultadoInasistente = useDatos.data.reduce((k, e)=> {
           if (!k.find(d => d.field18 === e.field18)) {
@@ -63,21 +64,23 @@ export function useExcel() {
           return a
         }, [])
         useDatos.dias = resultadoDia
-        
-
+       
         } catch (error) {
           
         }
        
        
     }
-
-    readDatos('octubre')
+    // Se pone mayo por que es el que menos items tiene  y cargan mas rapido
+    readDatos('mayo')
     
+
+    //Ver detalles de paciente
     const getDetalles = (data) => {
       useDatos.citasPaciente = useDatos.data.filter(field => field.field18 === data.field18)
     }
 
+    //FILTRO POR HORAS
     const filtroDos = (n) => {
         useDatos.busquedaDia = ''
         useDatos.busqueda = n
@@ -87,8 +90,10 @@ export function useExcel() {
         }  
         useDatos.filtroIncumplido = useDatos.data.filter(field =>  field.field5 === n) 
     }
-
+    
+    //FILTRO POR DIAS
     const filtroTres = (d) => {
+
         if (d === '') {
           return alert('Upp! peudes enviar un filtro vacio')
         }  
@@ -110,11 +115,27 @@ export function useExcel() {
     const getAll = () => {
          useDatos.data = datos.filter(field => field.field6 != 'Incumplida Pagada')
     }
+
+    const getTopByFields = (m) => {
+      
+      useDatos.mesTopDia = m
+
+      let numeroVecesDia = []
+      let numeroVecesHora = []
+
+      useDatos.dias.forEach(element => {
+        numeroVecesDia.push(useDatos.data.filter(field => field.field4 === element.field4))
+      })
+      useDatos.horas.forEach(element => {
+        numeroVecesHora.push(useDatos.data.filter(field => field.field5 === element.field5))
+      })
+      
+      useDatos.topDia = numeroVecesDia.sort().reverse()
+      useDatos.topHora = numeroVecesHora.sort().reverse()
+    }
     
-
-
       return {
-        readDatos, filtroDos, filtroTres, getAll, getDetalles
+        readDatos, filtroDos, filtroTres, getAll, getDetalles, getTopByFields
       }
 
 }

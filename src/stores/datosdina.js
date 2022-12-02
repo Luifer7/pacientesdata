@@ -30,8 +30,13 @@ export const useDatosStore = defineStore('datos', () => {
 
  const spinner = ref(null)
 
+ const topDia = ref([])
+ const topHora = ref([])
+ const mesTopDia = ref('')
+
   return { data, horas, dias, busquedaDia, mes, busqueda, total, incumplidos, 
-           condonados, incumplidaPagada, topInasistentes, filtroIncumplido, citasPaciente, spinner }
+           condonados, incumplidaPagada, topInasistentes, filtroIncumplido, 
+           citasPaciente, spinner, topDia, topHora, mesTopDia }
 
 
 })
