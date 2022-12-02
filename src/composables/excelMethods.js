@@ -137,7 +137,7 @@ export function useExcel() {
       
       useDatos.topDia = numeroVecesDia.sort().reverse().splice(0, 50)
       useDatos.topHora = numeroVecesHora.sort().reverse().splice(0, 50)
-      useDatos.pacienteTop = numeroVecesPaciente.sort().reverse().splice(0, 11) 
+      useDatos.pacienteTop = numeroVecesPaciente.sort().reverse().splice(0, 30) 
        
     }
     
