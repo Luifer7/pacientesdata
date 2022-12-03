@@ -65,9 +65,6 @@
 
 
 
-
-
-
     <!-- CAJA Filtros -->
     <div class="filtros m-auto  p-2 mt-3" >
 
@@ -132,6 +129,7 @@
                   {{useDatos.mes}}
               </b>
             </strong>
+            <DowloadComponent :datos="useDatos.filtroIncumplido" ></DowloadComponent>
           </div>
         
           <!-- Buscador -->
@@ -224,6 +222,7 @@
 
 <script setup>
 import { ref } from '@vue/reactivity';
+import DowloadComponent from '../components/DowloadComponent.vue';
 import SelectComponent from '../components/SelectComponent.vue';
 import TopsComponet from '../components/TopsComponet.vue';
 import { useExcel } from '../composables/excelMethods';

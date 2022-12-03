@@ -12,9 +12,10 @@
             </div>
 
             <div v-if="useDatos.mes === useDatos.mesTopDia"  class="container mt-2 box-tops-data d-flex align-items-center" >
-                <h6 class="text-start m-2" >TOP <b class="text-primary text-decoration-underline" >PACIENTES</b> CITAS INCUMPLIDAS 
+                <h6 class="m-2 d-flex flex-column" >TOP <b class="text-primary text-decoration-underline" >PACIENTES</b> CITAS INCUMPLIDAS 
                     <br>
-                    <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong>
+                    <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong> <br>
+                    <DowloadComponent :datos="topPaciente()" ></DowloadComponent>
                 </h6>
                 
                     <!-- Arreglos -->
@@ -40,9 +41,10 @@
             </div>
 
             <div v-if="useDatos.mes === useDatos.mesTopDia"  class="container mt-2 box-tops-data d-flex align-items-center" >
-                <h6 class="text-start m-2" >TOP <b class="text-primary text-decoration-underline" >DIAS</b> CITAS INCUMPLIDAS 
+                <h6 class="m-2 d-flex flex-column" >TOP <b class="text-primary text-decoration-underline" >DIAS</b> CITAS INCUMPLIDAS 
                     <br>
-                    <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong>
+                    <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong> <br>
+                    <DowloadComponent :datos="topDia()" ></DowloadComponent>
                 </h6>
                     
                     <!-- Arreglos -->
@@ -58,9 +60,10 @@
             </div>
 
             <div v-if="useDatos.mes === useDatos.mesTopDia"  class="container mt-4 box-tops-data d-flex align-items-center" >
-                <h6 class="text-start m-2" >TOP <b class="text-primary text-decoration-underline" >HORAS</b> CITAS INCUMPLIDAS 
+                <h6 class="m-2 d-flex flex-column" >TOP <b class="text-primary text-decoration-underline" >HORAS</b> CITAS INCUMPLIDAS 
                     <br>
-                    <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong>
+                    <strong class="text-primary text-capitalize">{{ useDatos.mesTopDia}}</strong> <br>
+                    <DowloadComponent :datos="topHora()" ></DowloadComponent>
                 </h6>
                     
                     <!-- Arreglos -->
@@ -84,6 +87,7 @@
 import { ref } from "@vue/reactivity";
 import { useExcel } from "../composables/excelMethods";
 import { useDatosStore } from "../stores/datosdina";
+import DowloadComponent from "./DowloadComponent.vue";
 
 const useDatos = useDatosStore()
 const { getTopByFields } = useExcel()
@@ -113,6 +117,40 @@ const copynumber = (n) => {
        console.log(error)
       } 
 }
+
+const arrTop = ref([])
+
+const topPaciente = () => {
+    let top = []
+        useDatos.pacienteTop.forEach((element) => {
+        top.push(element[0])
+    })
+
+    return top
+}
+
+const topHora = () => {
+    let top = []
+        useDatos.topHora.forEach((element) => {
+        top.push(element[0])
+    })
+    
+    return top
+}
+
+const topDia = () => {
+    let top = []
+        useDatos.topDia.forEach((element) => {
+        top.push(element[0])
+    })
+    
+    return top
+}
+
+
+
+
+
 
 
 </script>

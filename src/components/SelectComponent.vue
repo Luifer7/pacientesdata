@@ -19,12 +19,14 @@
         </div>
     </div>
 
+   
 </template>
 
 <script setup >
 import { ref } from "@vue/reactivity";
 import { useExcel } from "../composables/excelMethods";
 import { useDatosStore } from "../stores/datosdina";
+
 
 
 const months = ref([
@@ -37,5 +39,9 @@ const selectedMonth = ref('')
 
 const useDatos = useDatosStore()
 const { readDatos } = useExcel()
+
+
+
+
 
 </script>
