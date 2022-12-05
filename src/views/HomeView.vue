@@ -11,17 +11,19 @@
     <!-- Datos generales -->
     <div class="container p-2" >
 
-      <div class="m-3 text-justify d-flex justify-content-center align-items-center" >
-        <h1 style="font-size: 1.7em;" class="h3 m-1 text-center" >Total citas Incumplidas en 
-          <b class="text-primary text-uppercase">{{useDatos.mes}}:</b>
-        </h1>
+      <div class="m-3 text-justify d-flex justify-content-center align-items-center flex-wrap" >
+        <h1 style="font-size: 1.7em;" class="h3 m-1 text-center" >Total citas Incumplidas en </h1>
+        <div class="d-flex align-items-center justify-content-center gap-2" >
+          <h2 v-if="!useDatos.spinner" class="text-primary text-uppercase fw-bold m-0"> {{useDatos.mes}}:</h2>
         <h2 v-if="!useDatos.spinner" class="text-success fw-bold m-0">{{useDatos.data.length}}</h2>
         <SpinnerComponent v-if="useDatos.spinner"></SpinnerComponent>  
+        </div>
       </div>
 
       <div v-if="!useDatos.spinner" class="d-flex align-items-center justify-content-evenly gap-3 flex-wrap mt-1" >
         <strong class="h6 text-center" >Incumplidas <br> <b class="text-success h4">{{useDatos.incumplidos.length}}</b></strong>
         <strong class="h6 text-center" >Condonadas <br> <b class="text-success h4">{{useDatos.condonados.length}}</b></strong> 
+      
       </div>
         <!-- Spinner -->
         <div class="d-flex align-items-center justify-content-center" >
@@ -33,7 +35,7 @@
     <h5 v-if="!useDatos.spinner" class="text-center text-primary fw-bold mt-4" >
       {{useDatos.topInasistentes.length}} Pacientes <b class="text-uppercase" >
         {{useDatos.mes}}</b>
-      </h5>
+    </h5>
     
     <div v-if="!useDatos.spinner" class="mt-3 d-flex align-items-center justify-content-center gap-2 flex-wrap" >
 
