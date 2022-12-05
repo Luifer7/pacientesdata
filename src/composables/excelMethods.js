@@ -1,41 +1,51 @@
 
-import datos from "../../datos/data.json";
-import  octubre  from "../../datos/octubre.json";
-import  septiembre  from "../../datos/septiembre.json";
-import  agosto  from "../../datos/agosto.json";
-import  julio  from "../../datos/julio.json";
-import  junio  from "../../datos/junio.json";
-import  mayo  from "../../datos/mayo.json";
-import  abril  from "../../datos/abril.json";
-import  marzo  from "../../datos/marzo.json";
-import  febrero  from "../../datos/febrero.json";
 
+import { 
+collection, addDoc, query, onSnapshot, orderBy,
+doc, deleteDoc, updateDoc, getDoc, getDocs } from "firebase/firestore";
+import {  db, auth } from "../firebase";
 import { useDatosStore } from "../stores/datosdina";
+
 
 export function useExcel() {
 
+    // PINIA ES GOD 
     const useDatos = useDatosStore()
+    
+    // Funcion para agregar nuevo archivo excel
+    const addExcelData = async (archivo) => {
+      let barrera = 0
+      if (barrera === 1) {
+        console.log("Add excel")
+        try {
+        const datosRef = await addDoc(collection(db, "septiembre"), {
+          archivo
+        })
+        } catch (error) {
+            console.log(error)
+        }
+      }
+   }
 
-    const readDatos =  (mes) => {
+
+    // La que lo hace todo XD
+    const readDatos = async (mes) => {
+
         useDatos.show = false
         useDatos.filtroIncumplido = []
         useDatos.mes = mes
-        useDatos.total = []
-        mes === 'octubre' ? useDatos.total = octubre.mes : false 
-        mes === 'septiembre' ? useDatos.total = septiembre.mes :false 
-        mes === 'agosto' ? useDatos.total = agosto.mes : false  
-        mes === 'julio' ? useDatos.total = julio.mes : false
-        mes === 'junio' ? useDatos.total = junio.mes : false
-        mes === 'mayo' ? useDatos.total = mayo.mes : false
-        mes === 'abril' ? useDatos.total = abril.mes : false
-        mes === 'marzo' ? useDatos.total = marzo.mes : false
-        mes === 'febrero' ? useDatos.total = febrero.mes : false
-      
+        useDatos.total = {}
+        
+        const querySnapshot = await getDocs(collection(db, `${mes}`));
+        querySnapshot.forEach((doc) => {
+           useDatos.total = doc.data().archivo[`${mes}`]
+        })
+
         try {
 
-          useDatos.condonados =  useDatos.total.filter(field => field.field6 === 'Condonada')
-          useDatos.incumplidos = useDatos.total.filter(field => field.field6 === "Incumplida")
-          useDatos.data =  useDatos.total.filter(field => field.field6 != 'Incumplida Pagada')
+          useDatos.condonados = await useDatos.total.filter(field => field.field6 === 'Condonada')
+          useDatos.incumplidos = await useDatos.total.filter(field => field.field6 === "Incumplida")
+          useDatos.data = await useDatos.total.filter(field => field.field6 != 'Incumplida Pagada')
           
            //Para Los pacientes        
           let resultadoInasistente = useDatos.data.reduce((k, e)=> {
@@ -64,17 +74,28 @@ export function useExcel() {
             return a
           }, [])
           useDatos.dias = resultadoDia
-        
+
+          let resultadoEspecialidad = useDatos.data.reduce((a, e)=> {
+            if (!a.find(d => d.field2 === e.field2)) {
+              a.push(e)
+            }
+            return a
+          }, [])
+          useDatos.especialidad = resultadoEspecialidad
+          
+          await getTopByFields(useDatos.mes)
           } catch (error) {
             
           }
-       
-       
+  
     }
 
     //Se pone mayo por que es el que menos items tiene  y cargan mas rapido
     readDatos('mayo')
     
+    
+
+
 
     //Ver detalles de paciente
     const getDetalles = (data) => {
@@ -114,7 +135,20 @@ export function useExcel() {
         useDatos.filtroIncumplido = useDatos.data.filter(field =>  field.field4 === d) 
     }
 
+    const filtroCuatro = (e) => {
+      useDatos.show = true
+      useDatos.busquedaDia = ''
+      useDatos.busqueda = e
+      useDatos.filtroIncumplido = []
+      if (e === '') {
+       return alert('Upp! peudes enviar un filtro vacio')
+      }  
+      useDatos.filtroIncumplido = useDatos.data.filter(field =>  field.field2 === e) 
+  }
 
+
+
+    // La de los tops, se carga em vista o en el componente
     const getTopByFields = (m) => {
       
       useDatos.mesTopDia = m
@@ -138,11 +172,11 @@ export function useExcel() {
       useDatos.topDia = numeroVecesDia.sort().reverse().splice(0, 50)
       useDatos.topHora = numeroVecesHora.sort().reverse().splice(0, 50)
       useDatos.pacienteTop = numeroVecesPaciente.sort().reverse().splice(0, 30) 
-       
+     
     }
     
       return {
-        readDatos, filtroDos, filtroTres, getDetalles, getTopByFields
+        readDatos, filtroDos, filtroTres, getDetalles, getTopByFields, addExcelData, filtroCuatro
       }
 
 }

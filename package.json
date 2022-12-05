@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "export-from-json": "^1.7.0",
+    "firebase": "^9.14.0",
     "pinia": "^2.0.26",
     "read-excel-file": "^5.5.3",
     "vue": "^3.2.45",

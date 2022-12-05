@@ -109,6 +109,24 @@
             </button>
             </form>
             </div>
+
+            <!-- Filtro por especialidad -->
+            <div class="d-flex col-10 flex-column" >
+              <small class="fw-bold m-1 text-primary" style="font-size: .9em;"  >
+                Filtra citas
+                <b class="text-danger" >Incumplidas</b>
+                por Especialidad</small>
+              <form class="d-flex gap-2" v-on:submit.prevent="(filtroCuatro(especialidad), restarModel(3))"  >
+              <select v-model="especialidad" class="form-select" aria-label="Default select example">
+              <option selected>Elige una especialidad.</option>
+              <option v-for="especialidad of useDatos.especialidad" :key="especialidad.id" :value="`${especialidad.field2}`" >{{especialidad.field2}}</option>
+            
+            </select>
+            <button type="submit" class="btn btn-sm btn-primary">
+              <i class="bi bi-funnel"></i>
+            </button>
+            </form>
+            </div>
           
           </div>
 
@@ -134,7 +152,7 @@
         
           <!-- Buscador -->
           <div v-if="useDatos.show" class="mt-3" >
-          <input type="text" v-model="queryFiltradas" placeholder="Buscar una hora ejemplo: 2:30PM" class="form-control form-control-sm w-50 m-auto">
+          <input type="text" v-model="queryFiltradas" placeholder="Buscar por nombre del paciente" class="form-control form-control-sm w-50 m-auto">
           </div>
 
           <!-- CAJA datos filtrados -->
@@ -229,19 +247,26 @@ import { useExcel } from '../composables/excelMethods';
 import { useDatosStore } from '../stores/datosdina';
 
 const useDatos = useDatosStore()
-const { readDatos, filtroDos, filtroTres, getDetalles, getTopByFields } = useExcel()
+const { readDatos, filtroDos, filtroTres, getDetalles, getTopByFields, filtroCuatro } = useExcel()
 
 
 //Para filtros
 const h = ref('')
 const dia = ref('')
+const especialidad = ref('')
 
 const restarModel = (d) => {
   if (d === 1) {
     dia.value = ''
+    especialidad.value = ''
   }
   if (d === 2) {
     h.value = ''
+    especialidad.value = ''
+  }
+  if (d === 3) {
+    h.value = ''
+    dia.value = ''
   }
 }
 
@@ -279,7 +304,7 @@ getTopByFields(useDatos.mes)
   //Filtro por horas function
   const queryFiltradas = ref('')
   const getFiltradas = () => {
-     return useDatos.filtroIncumplido.filter(field => field.field5.includes(queryFiltradas.value.toUpperCase()))
+     return useDatos.filtroIncumplido.filter(field => field.field9.includes(queryFiltradas.value.toUpperCase()))
   } 
 
   //Filtro por cedula de todas

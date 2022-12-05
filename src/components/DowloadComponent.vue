@@ -12,17 +12,32 @@
 import readXlsFile from "read-excel-file";
 import exportFromJSON from "export-from-json";
 import { ref } from "@vue/reactivity";
+import { useDatosStore } from "../stores/datosdina";
 
 defineProps({
-  datos: Object,
+  datos: Array,
 });
 
+const useDatos = useDatosStore()
+
 const descargarExcel = (datos) => {
-  const data = datos;
-  const fileName = `dowload${Date.now()}`;
-  const exportType = exportFromJSON.types.xls;
-  exportFromJSON({ data, fileName, exportType });
-};
+ 
+
+  datos.forEach(element => {
+    let field0 = Date.now() + 1
+    element.push(field0)
+    console.log(elem)
+  })
+
+  let bloqueante = 0
+  if (bloqueante === 1) {
+    const fileName = `Descarga-${Date.now()}`
+    const exportType = exportFromJSON.types.xls
+    exportFromJSON({ data, fileName, exportType })
+  }
+}
+
+
 </script>
 
 <style scoped>

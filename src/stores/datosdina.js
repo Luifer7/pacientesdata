@@ -13,6 +13,7 @@ export const useDatosStore = defineStore('datos', () => {
   //Para los filtros
   const horas = ref([])
   const dias = ref([])
+  const especialidad = ref([])
 
   //Para los datos de citas
   const incumplidos = ref([])
@@ -37,9 +38,12 @@ export const useDatosStore = defineStore('datos', () => {
 
  const show = ref(null)
 
-  return { data, horas, dias, busquedaDia, mes, busqueda, total, incumplidos, 
+ ///////////// MIGRACION ///////////
+ const mesSeleccionado = ref({})
+
+  return { data, horas, dias, especialidad, busquedaDia, mes, busqueda, total, incumplidos, 
            condonados, incumplidaPagada, topInasistentes, filtroIncumplido, 
-           citasPaciente, spinner, topDia, topHora, mesTopDia, pacienteTop, show }
+           citasPaciente, spinner, topDia, topHora, mesTopDia, pacienteTop, show, mesSeleccionado }
 
 
 })

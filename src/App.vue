@@ -13,7 +13,7 @@
               class="form-select form-select-sm"
               aria-label="Default select example"
             >
-              <option selected>Filtrar por Horas</option>
+              <option selected>Elige un mes</option>
               <option
                 v-for="month of months"
                 :key="month.id"
@@ -31,6 +31,7 @@
           </form>
         </div>
 
+       <!--  <UploadComponent></UploadComponent> -->
       </div>
 
       <!-- Hidden componnet -->
@@ -52,12 +53,37 @@
         <small>Copyright&copy; 2022</small>
       </div>
 
+      <!-- 
+
+        import  octubre  from "../../datos/octubre.json";
+import  septiembre  from "../../datos/septiembre.json";
+import  agosto  from "../../datos/agosto.json";
+import  julio  from "../../datos/julio.json";
+import  junio  from "../../datos/junio.json";
+import  mayo  from "../../datos/mayo.json";
+import  abril  from "../../datos/abril.json";
+import  marzo  from "../../datos/marzo.json";
+import  febrero  from "../../datos/febrero.json";
+
+          mes === 'octubre' ? useDatos.total = octubre.octubre : false 
+        mes === 'septiembre' ? useDatos.total = septiembre.septiembre :false 
+        mes === 'agosto' ? useDatos.total = agosto.agosto : false  
+        mes === 'julio' ? useDatos.total = julio.julio : false
+        mes === 'junio' ? useDatos.total = junio.junio : false
+        mes === 'mayo' ? useDatos.total = mayo.mayo : false
+        mes === 'abril' ? useDatos.total = abril.abril : false
+        mes === 'marzo' ? useDatos.total = marzo.marzo : false
+        mes === 'febrero' ? useDatos.total = febrero.febrero : false
+
+       -->
+
 </template>
 
 <script setup>
 import { ref } from "@vue/reactivity";
 import { RouterLink, RouterView } from "vue-router";
 import SelectComponent from "./components/SelectComponent.vue";
+import UploadComponent from "./components/UploadComponent.vue";
 import { useExcel } from "./composables/excelMethods";
 import { useDatosStore } from "./stores/datosdina";
 
@@ -77,6 +103,7 @@ const months = ref([
   { id: "skhdh", mes: "septiembre" },
   { id: "msjs", mes: "octubre" },
 ]);
+
 </script>
 
 <style scoped>
