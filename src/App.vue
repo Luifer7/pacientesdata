@@ -1,7 +1,7 @@
 <template>
     
       <div class="box-header d-flex p-2  align-items-center justify-content-around flex-wrap">
-       
+      
         <div class="d-flex" style="height: 20px;" >
           <form
             class="d-flex align-items-center justify-content-center gap-2"

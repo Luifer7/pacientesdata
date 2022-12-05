@@ -30,16 +30,17 @@ export function useExcel() {
 
     // La que lo hace todo XD
     const readDatos = async (mes) => {
-
+        useDatos.spinner = true
         useDatos.show = false
         useDatos.filtroIncumplido = []
         useDatos.mes = mes
         useDatos.total = {}
-        
+        useDatos.data = []
         const querySnapshot = await getDocs(collection(db, `${mes}`));
         querySnapshot.forEach((doc) => {
            useDatos.total = doc.data().archivo[`${mes}`]
         })
+        useDatos.spinner = false
 
         try {
 
@@ -87,7 +88,7 @@ export function useExcel() {
           } catch (error) {
             
           }
-  
+         
     }
 
     //Se pone mayo por que es el que menos items tiene  y cargan mas rapido
@@ -144,6 +145,7 @@ export function useExcel() {
        return alert('Upp! peudes enviar un filtro vacio')
       }  
       useDatos.filtroIncumplido = useDatos.data.filter(field =>  field.field2 === e) 
+
   }
 
 

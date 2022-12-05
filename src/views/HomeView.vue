@@ -7,33 +7,46 @@
  
     <SelectComponent></SelectComponent>
 
-
+    
     <!-- Datos generales -->
     <div class="container p-2" >
-      <div class="m-3 text-justify" >
-        <h1 style="font-size: 1.7em;" class="h3 m-3 text-center" >Total citas Incumplidas en <b class="text-primary text-uppercase">{{useDatos.mes}}: </b><b class="text-success">{{useDatos.data.length}}</b></h1>
+
+      <div class="m-3 text-justify d-flex justify-content-center align-items-center" >
+        <h1 style="font-size: 1.7em;" class="h3 m-1 text-center" >Total citas Incumplidas en 
+          <b class="text-primary text-uppercase">{{useDatos.mes}}:</b>
+        </h1>
+        <h2 v-if="!useDatos.spinner" class="text-success fw-bold m-0">{{useDatos.data.length}}</h2>
+        <SpinnerComponent v-if="useDatos.spinner"></SpinnerComponent>  
       </div>
-    <div class="d-flex align-items-center justify-content-evenly gap-3 flex-wrap mt-1" >
-      <strong class="h6 text-center" >Incumplidas <br> <b class="text-success h4">{{useDatos.incumplidos.length}}</b></strong>
-      <strong class="h6 text-center" >Condonadas <br> <b class="text-success h4">{{useDatos.condonados.length}}</b></strong> 
-    </div>
+
+      <div v-if="!useDatos.spinner" class="d-flex align-items-center justify-content-evenly gap-3 flex-wrap mt-1" >
+        <strong class="h6 text-center" >Incumplidas <br> <b class="text-success h4">{{useDatos.incumplidos.length}}</b></strong>
+        <strong class="h6 text-center" >Condonadas <br> <b class="text-success h4">{{useDatos.condonados.length}}</b></strong> 
+      </div>
+        <!-- Spinner -->
+        <div class="d-flex align-items-center justify-content-center" >
+          <SpinnerComponent v-if="useDatos.spinner"></SpinnerComponent>  
+        </div>
     </div>
     
     <!-- Pacientes -->
-    <h5 class="text-center text-primary fw-bold mt-4" >{{useDatos.topInasistentes.length}} Pacientes <b class="text-uppercase" >{{useDatos.mes}}</b> </h5>
+    <h5 v-if="!useDatos.spinner" class="text-center text-primary fw-bold mt-4" >
+      {{useDatos.topInasistentes.length}} Pacientes <b class="text-uppercase" >
+        {{useDatos.mes}}</b>
+      </h5>
     
-    <div class="mt-3 d-flex align-items-center justify-content-center gap-2 flex-wrap" >
+    <div v-if="!useDatos.spinner" class="mt-3 d-flex align-items-center justify-content-center gap-2 flex-wrap" >
 
       <input type="text" v-model="queryMasBuscados" placeholder="Buscar por nombre" 
       class="form-control form-control-sm w-50">
-      <span class="text-center text-primary d-flex align-items-center justify-content-center">
+      <span v-if="!useDatos.spinner" class="text-center text-primary d-flex align-items-center justify-content-center">
           <i class="bi bi-funnel-fill h5">{{getMasBuscado().length}}</i>
       </span>
     
     </div>
      
         <!-- CARD PACIENTES -->
-       <div class="container p-3 m-auto d-flex box-top flex-column" >
+       <div v-if="!useDatos.spinner" class="container p-3 m-auto d-flex box-top flex-column" >
         
         <div class="d-flex box-top" >
           <div v-for="top of getMasBuscado()" :key="top.field8" class="border box-user p-2 d-flex flex-column gap-2">
@@ -66,7 +79,7 @@
 
 
     <!-- CAJA Filtros -->
-    <div class="filtros m-auto  p-2 mt-3" >
+    <div  class="filtros m-auto  p-2 mt-3" >
 
             <!-- Titulo filtros -->
            <h3 class="text-center mb-4 text-dark" >FILTROS</h3>
@@ -233,6 +246,8 @@
 
   </div>
 
+  
+
 </template>
 
 
@@ -242,6 +257,7 @@
 import { ref } from '@vue/reactivity';
 import DowloadComponent from '../components/DowloadComponent.vue';
 import SelectComponent from '../components/SelectComponent.vue';
+import SpinnerComponent from '../components/SpinnerComponent.vue';
 import TopsComponet from '../components/TopsComponet.vue';
 import { useExcel } from '../composables/excelMethods';
 import { useDatosStore } from '../stores/datosdina';

@@ -11,6 +11,10 @@
                 >Ver estadisticas de {{useDatos.mes}}</button>
             </div>
 
+            <div class="d-flex align-items-center justify-content-center" >
+                <SpinnerComponent v-if="useDatos.spinner" ></SpinnerComponent>
+            </div>
+
             <div v-if="useDatos.mes === useDatos.mesTopDia"  class="container mt-2 box-tops-data d-flex align-items-center" >
                 <h6 class="m-2 d-flex flex-column" >TOP <b class="text-primary text-decoration-underline" >PACIENTES</b> CITAS INCUMPLIDAS 
                     <br>
@@ -78,7 +82,7 @@
 
             </div>
         
-
+            
 </template>
 
 
@@ -88,6 +92,7 @@ import { ref } from "@vue/reactivity";
 import { useExcel } from "../composables/excelMethods";
 import { useDatosStore } from "../stores/datosdina";
 import DowloadComponent from "./DowloadComponent.vue";
+import SpinnerComponent from "./SpinnerComponent.vue";
 
 const useDatos = useDatosStore()
 const { getTopByFields } = useExcel()
